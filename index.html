@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BISWAJIT RABHA HACKER STORE</title>
+    <style>
+        /* Base Cyberpunk Setup */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #06060c;
+            color: #fff;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* Screen Wrapper */
+        .screen {
+            display: none;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .screen.active {
+            display: flex !important;
+        }
+
+        /* Screen 1: High-Tech Stylish Intro Animation */
+        #intro-screen {
+            background: radial-gradient(circle, #0f0f26 0%, #030308 100%);
+            flex-direction: column;
+        }
+
+        .intro-container {
+            text-align: center;
+            position: relative;
+        }
+
+        .animated-title {
+            font-size: 2.4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #00ffcc;
+            text-shadow: 0 0 10px #00ffcc, 0 0 30px #00ffcc;
+            animation: glitch-glow 2.5s ease-in-out infinite alternate;
+            padding: 0 20px;
+        }
+
+        .intro-subtitle {
+            font-size: 0.9rem;
+            color: #ff3366;
+            margin-top: 15px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            font-weight: bold;
+            opacity: 0.8;
+            animation: pulse-sub 1.5s infinite ease-in-out alternate;
+        }
+
+        @keyframes glitch-glow {
+            0% { transform: scale(0.98); text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc; color: #00ffcc; }
+            50% { color: #00e6ff; text-shadow: 0 0 15px #00e6ff, 0 0 40px #00e6ff; }
+            100% { transform: scale(1.02); text-shadow: 0 0 25px #ff00cc, 0 0 50px #ff00cc; color: #ff00cc; }
+        }
+
+        @keyframes pulse-sub {
+            0% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        /* Screen 2: Responsive Chat Bot Interface (Perfect Fit) */
+        #chat-screen {
+            flex-direction: column;
+            width: 100%;
+            max-width: 480px;
+            height: 100vh;
+            background: #0b0b16;
+            border-left: 1px solid #1f1f3d;
+            border-right: 1px solid #1f1f3d;
+            position: relative;
+        }
+
+        .chat-header {
+            width: 100%;
+            padding: 15px;
+            background: #111126;
+            border-bottom: 2px solid #1f1f3d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .chat-title {
+            color: #00ffcc;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-shadow: 0 0 8px rgba(0, 255, 204, 0.4);
+        }
+
+        /* Start Button Trigger */
+        .start-trigger-btn {
+            background: linear-gradient(45deg, #ff3366, #ff00cc);
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 0 12px rgba(255, 51, 102, 0.6);
+            transition: transform 0.2s;
+        }
+        .start-trigger-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Chat History Stream (Scroll Area) */
+        .chat-body {
+            flex: 1;
+            width: 100%;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: #090912;
+            padding-bottom: 80px; /* Space so input never blocks text */
+        }
+
+        .msg {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .msg.bot {
+            background: #161632;
+            color: #fff;
+            align-self: flex-start;
+            border-top-left-radius: 2px;
+            border-left: 4px solid #00ffcc;
+        }
+
+        .msg.user {
+            background: #3d3db8;
+            color: #fff;
+            align-self: flex-end;
+            border-top-right-radius: 2px;
+        }
+
+        /* Fixed Input Controls Footer */
+        .chat-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #111126;
+            display: flex;
+            gap: 10px;
+            padding: 12px;
+            border-top: 2px solid #1f1f3d;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+
+        .chat-input {
+            flex: 1;
+            background: #06060c;
+            border: 1px solid #2a2a54;
+            padding: 12px 18px;
+            border-radius: 25px;
+            color: #fff;
+            outline: none;
+            font-size: 1rem;
+        }
+        .chat-input:focus {
+            border-color: #00ffcc;
+        }
+
+        .send-btn {
+            background: linear-gradient(45deg, #3d3db8, #252575);
+            border: none;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 8px rgba(61, 61, 184, 0.4);
+        }
+
+        /* Screen 3: Popup Payment Modal Layer over Chat */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(3, 3, 8, 0.95);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            padding: 15px;
+        }
+
+        .modal-overlay.active {
+            display: flex !important;
+        }
+
+        .menu-box {
+            background: #14142a;
+            border: 2px solid #333366;
+            border-radius: 16px;
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.2);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            color: #aaa;
+            font-size: 1.3rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .menu-title {
+            color: #00ffcc;
+            font-size: 1.5rem;
+            margin-bottom: 2px;
+            text-shadow: 0 0 8px rgba(0,255,204,0.3);
+        }
+
+        .subtitle {
+            color: #ff3366;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .info-panel {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: left;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            border-left: 4px solid #ff3366;
+        }
+
+        .qr-wrapper {
+            background: white;
+            padding: 12px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .qr-img {
+            width: 160px;
+            height: auto;
+            display: block;
+        }
+
+        /* Save QR Button Styling */
+        .btn-save-qr {
+            display: block;
+            margin: 0 auto 15px auto;
+            background: #2a2a4e;
+            color: #00ffcc;
+            border: 1px solid #00ffcc;
+            padding: 5px 14px;
+            font-size: 0.8rem;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .btn-save-qr:hover {
+            background: #00ffcc;
+            color: #000;
+        }
+
+        .timer {
+            color: #ff3333;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        /* Action Buttons */
+        .btn-action {
+            background: linear-gradient(45deg, #ff3366, #ff00cc);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            text-transform: uppercase;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(255,51,102,0.4);
+        }
+
+        #whatsapp-trigger-zone {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #333366;
+        }
+
+        .btn-wa {
+            display: block;
+            background: #25D366;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+        }
+
+        /* Copyright Notice Footer */
+        .copyright {
+            font-size: 0.75rem;
+            color: #555;
+            margin-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="intro-screen" class="screen active">
+        <div class="intro-container">
+            <div class="animated-title">BISWAJIT RABHA</div>
+            <div class="intro-subtitle">Hacker Store Loading...</div>
+        </div>
+    </div>
+
+    <div id="chat-screen" class="screen">
+        <div class="chat-header">
+            <span class="chat-title">🤖 AI CHEATS ENGINE v3.0</span>
+            <button class="start-trigger-btn" onclick="openPaymentMenu()">START /</button>
+        </div>
+        
+        <div class="chat-body" id="chat-box">
+            <div class="msg bot">Welcome to Biswajit Rabha Hacker Store AI interface. Type anything below to ask details. To get the QR code and Mod Menu details, click on the "START /" button on top right.</div>
+        </div>
+
+        <div class="chat-footer">
+            <input type="text" id="user-input" class="chat-input" placeholder="Type message (hii, owner, number)..." onkeypress="checkEnter(event)">
+            <button class="send-btn" onclick="sendMessage()">➔</button>
+        </div>
+    </div>
+
+    <div id="payment-modal" class="modal-overlay">
+        <div class="menu-box">
+            <button class="close-modal" onclick="closePaymentMenu()">✕</button>
+            <h1 class="menu-title">THE KING CHEATS MODS MENU</h1>
+            <p class="subtitle">Non-Root Mod Menu Seft Anti-Blacklist</p>
+            
+            <div class="info-panel">
+                <strong>Duration:</strong> 3 Days<br>
+                <strong>Price:</strong> ₹130<br>
+                <strong>Notice:</strong> Payment karne ke baad screenshot karke bhejna, payment receive hote hi apko download link diya jayega.
+            </div>
+
+            <div class="qr-wrapper">
+                <img src="895638.jpg" alt="UPI QR Code" class="qr-img" id="qr-image">
+            </div>
+            <button class="btn-save-qr" onclick="downloadQR()">📥 Save QR Code</button>
+
+            <div class="timer" id="timer-display">QR Expires in: 05:00</div>
+
+            <button class="btn-action" id="pay-confirm-btn" onclick="triggerPaymentVerification()">Simulate Payment Received</button>
+
+            <div id="whatsapp-trigger-zone">
+                <a id="wa-final-link" href="#" target="_blank" class="btn-wa">
+                    🟢 Click to get Download Link (WhatsApp)
+                </a>
+            </div>
+
+            <div class="copyright">© 2026 Biswajit Rabha Hacker Store. All Rights Reserved.</div>
+        </div>
+    </div>
+
+    <script>
+        // Automatic Transition from Intro to AI Chat (4 Seconds)
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.getElementById('intro-screen').classList.remove('active');
+                document.getElementById('chat-screen').classList.add('active');
+            }, 4000);
+        });
+
+        // Instant Instant AI Reply Bot Database
+        function sendMessage() {
+            const inputField = document.getElementById('user-input');
+            const chatBox = document.getElementById('chat-box');
+            const text = inputField.value.trim();
+
+            if (!text) return;
+
+            // Append User Message
+            appendMessage(text, 'user');
+            inputField.value = '';
+
+            // Instant Dynamic Bot Reply Engine (Zero Delay)
+            let lowerText = text.toLowerCase();
+            let botReply = "Invalid Code. Please type 'hii', 'owner', or 'number' for support. Click 'START /' button to open premium QR panel.";
+
+            if (lowerText === 'hii' || lowerText === 'hi' || lowerText === 'hello') {
+                botReply = "helo";
+            } else if (lowerText === 'owner number' || lowerText === 'number' || lowerText === 'phone') {
+                botReply = "6002162870";
+            } else if (lowerText === 'apko kisne banaya' || lowerText === 'owner' || lowerText === 'creator') {
+                botReply = "Biswajit Rabha sir ne";
+            }
+
+            appendMessage(botReply, 'bot');
+        }
+
+        function appendMessage(text, sender) {
+            const chatBox = document.getElementById('chat-box');
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('msg', sender);
+            msgDiv.textContent = text;
+            chatBox.appendChild(msgDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function checkEnter(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Operational Activation Logic for checkout modules
+        let countdownInterval;
+        function openPaymentMenu() {
+            document.getElementById('payment-modal').classList.add('active');
+            clearInterval(countdownInterval);
+            startTimer(300); // 5 minutes countdown initiation
+            setupWhatsAppAPI();
+        }
+
+        function closePaymentMenu() {
+            document.getElementById('payment-modal').classList.remove('active');
+        }
+
+        // Exact 5-Minute Expiry Countdown Routine
+        function startTimer(duration) {
+            let timer = duration, minutes, seconds;
+            const display = document.getElementById('timer-display');
+            
+            countdownInterval = setInterval(() => {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = "QR Expires in: " + minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    clearInterval(countdownInterval);
+                    display.textContent = "QR Code Expired!";
+                    display.style.color = "#ff3333";
+                }
+            }, 1000);
+        }
+
+        // QR Save Functionality
+        function downloadQR() {
+            const qrImg = document.getElementById('qr-image');
+            const link = document.createElement('a');
+            link.href = qrImg.src;
+            link.download = '895638.jpg';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // WhatsApp Custom Setup
+        function setupWhatsAppAPI() {
+            const phone = "916002162870"; 
+            const rawMsg = "Hii Biswa Sir";
+            const processedString = encodeURIComponent(rawMsg);
+            
+            document.getElementById('wa-final-link').href = `https://wa.me/${phone}?text=${processedString}`;
+        }
+
+        // Payment status simulated trigger
+        function triggerPaymentVerification() {
+            document.getElementById('pay-confirm-btn').style.display = 'none';
+            document.getElementById('whatsapp-trigger-zone').style.display = 'block';
+            appendMessage("[SYSTEM] Payment confirmed manually. Secure download pipeline initialized.", 'bot');
+        }
+    </script>
+</body>
+                  </html>
+                  
